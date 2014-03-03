@@ -1,0 +1,11 @@
+[:div {:style "text-align: center;"}
+  (let [gamestate (:gamestate *view-context*)]
+    [:p (apply str (:board gamestate))])
+
+  (form-to [:post "/move"]
+    (unordered-list [
+      (let [possible-moves (:possible-moves *view-context*)]
+        (for [possible-move possible-moves]
+             [:li (label (str possible-move) (str possible-move))
+                  (radio-button :move false (str possible-move))]))])
+    (submit-button "Move"))]

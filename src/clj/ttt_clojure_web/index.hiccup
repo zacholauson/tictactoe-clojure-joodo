@@ -1,0 +1,32 @@
+[:div
+  [:h3 "Tic Tac Toe"]
+  (form-to [:post "/new-game"]
+
+    (unordered-list [
+      (label "3" "3x3")
+      (radio-button :board-size true 3)
+
+      (label "4" "4x4")
+      (radio-button :board-size false 4)
+
+      (label "5" "5x5")
+      (radio-button :board-size false 5)])
+
+    (unordered-list [
+      (label ":unbeatable" "Unbeatable")
+      (radio-button :difficulty true :unbeatable)
+
+      (label ":medium" "Medium")
+      (radio-button :difficulty false :medium)
+
+      (label ":easy" "Easy")
+      (radio-button :difficulty false :easy)])
+
+    (unordered-list [
+      (label ":who-goes-first" "Computer")
+      (radio-button :who-goes-first true :computer)
+
+      (label ":who-goes-first" "Human")
+      (radio-button :who-goes-first false :human)])
+
+    (submit-button "New Game"))]
