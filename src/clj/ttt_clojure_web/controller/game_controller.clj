@@ -1,8 +1,8 @@
 (ns ttt-clojure-web.controller.game-controller
-  (:require [compojure.core :refer :all]
-            [joodo.views :refer (render-template)]
-            [joodo.middleware.request :refer [*request*]]
-            [ring.util.response :refer [redirect]]
+  (:require [compojure.core                 :refer :all]
+            [joodo.views                    :refer (render-template)]
+            [joodo.middleware.request       :refer [*request*]]
+            [ring.util.response             :refer [redirect]]
             [hiccup.core                    :refer :all]
             [clojure.math.numeric-tower     :as math]
             [ttt-clojure.interface.player   :refer :all]
@@ -31,37 +31,40 @@
 
 (defn build-gamestate [params]
   (let [row-size       (parse-int (:board-size params))
-        difficulty     (keyword (:difficulty params))
-        who-goes-first (keyword (:who-goes-first params))
+        difficulty     (keyword   (:difficulty params))
+        who-goes-first (keyword   (:who-goes-first params))
         computer       (computer/new-computer (if (= who-goes-first :computer) :x :o))
         human          (human/new-human (if (= who-goes-first :computer) :o :x) nil)
         player-col     (if (= who-goes-first :computer) [computer human] [human computer])
         computer-mark  (if (= who-goes-first :computer) :x :o)]
     {:board (create-board row-size) :players player-col :computer computer-mark :options {:difficulty difficulty}}))
 
-(defn let-computer-move [gamestate]
-  (move gamestate (find-move gamestate)))
-
 (defn session [request]
   (:session request))
-
-(defn index-board [board]
-  (map-indexed #(if (= :- %2) (format "%2s" %1) (format "%2s" (name %2))) board))
 
 (defn gamestate [request]
   (:gamestate (session request)))
 
+(defn index-board [board]
+  (map-indexed #(if (= :- %2) (format "%2s" %1) (format "%2s" (name %2))) board))
+
+(defn let-computer-move [gamestate]
+  (move gamestate (find-move gamestate)))
+
 (defn start-game [request params]
   (let [gamestate (build-gamestate params)
-        gamestate (if (= (:computer (gamestate request)) :x) (let-computer-move gamestate) gamestate)]
+        gamestate (if (= :x (:computer gamestate)) (let-computer-move gamestate) gamestate)]
        (assoc (redirect "/play") :session (set-gamestate-session request gamestate))))
 
 (defn row-size [board]
   (math/sqrt (count board)))
 
 (defn build-map-to-send-to-play-template [request]
-  {:gamestate (gamestate request)
-   :possible-moves (possible-moves (gamestate request))})
+  {:gamestate      (gamestate request)
+   :possible-moves (possible-moves (gamestate request))
+   :indexed-board  (partition (row-size (:board (gamestate request))) (index-board (:board (gamestate request))))
+   :game-over?     (game-over? (gamestate request))
+   :winner         (winner (gamestate request))})
 
 (defn make-human-move [params request]
   (let [new-move (parse-int (:move params))

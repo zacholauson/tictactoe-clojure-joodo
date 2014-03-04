@@ -1,11 +1,19 @@
-[:div {:style "text-align: center;"}
-  (let [gamestate (:gamestate *view-context*)]
-    [:p (apply str (:board gamestate))])
+[:div {:style "visibility: hidden"}
+  (defn space-taken? [string]
+    (if (re-find #"x|o" string) true false))
 
+  (defn buttonify [string]
+    (if (space-taken? string) string
+      [:div (radio-button :move true string)]))]
+
+[:div {:style "text-align: center;"}
   (form-to [:post "/move"]
-    (unordered-list [
-      (let [possible-moves (:possible-moves *view-context*)]
-        (for [possible-move possible-moves]
-             [:li (label (str possible-move) (str possible-move))
-                  (radio-button :move false (str possible-move))]))])
-    (submit-button "Move"))]
+    [:table {:border "1" :style "width: 90%; font-size: 32px;"}
+      (for [row (:indexed-board *view-context*)]
+        [:tr
+         (for [space row]
+           [:td (buttonify space)])])]
+    (if (not (:game-over? *view-context*))
+      (submit-button "Make Move")
+      [:h1 (:winner *view-context*)]))
+  (link-to "/" "New Game")]
