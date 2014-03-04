@@ -1,0 +1,25 @@
+html {
+  text-align: center;
+}
+
+body {
+  width: 100%;
+}
+
+table {
+  margin: 0 auto;
+  font-size: 50px;
+  text-transform: uppercase;
+}
+
+td {
+  width: 175px;
+  height: 175px;
+}
+
+label {
+  display: none;
+}
+
+input[type="radio"] {
+}
