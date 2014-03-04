@@ -12,7 +12,7 @@
                  [ring-server/ring-server "0.3.1"]
                  [shoreleave/shoreleave-remote-ring "0.3.0" :exclusions [[org.clojure/tools.reader]]]
                  [sandbar/sandbar "0.4.0-SNAPSHOT"]
-                 [ttt-clojure "0.1.1"]]
+                 [ttt-clojure "0.1.1-SNAPSHOT"]]
 
   :profiles {:dev {:dependencies [[speclj "2.8.1"]
                                   [specljs "2.8.1"]
