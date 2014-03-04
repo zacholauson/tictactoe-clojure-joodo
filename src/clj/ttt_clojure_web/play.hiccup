@@ -13,7 +13,7 @@
         [:tr
          (for [space row]
            [:td (buttonify space)])])]
-    (if (not (:game-over? *view-context*))
-      (submit-button "Make Move")
-      [:h1 (:winner *view-context*)]))
+    (if (:game-over? *view-context*)
+      [:h1 (:winner *view-context*)]
+      (submit-button "Make Move")))
   (link-to "/" "New Game")]

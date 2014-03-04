@@ -11,6 +11,7 @@
 
       (label "5" "5x5")
       (radio-button :board-size false 5)])
+
     (unordered-list [
       (label ":unbeatable" "Unbeatable")
       (radio-button :difficulty true :unbeatable)
