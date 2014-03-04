@@ -7,7 +7,10 @@
             [ttt-clojure.players.human                  :refer [new-human]    :as human]
             [ttt-clojure-web.controller.game-controller :refer :all]))
 
-(def new-gamestate {:board [:- :- :- :- :- :- :- :- :-], :computer :o, :players [(new-human :x nil) (new-computer :o)]  :options {:difficulty :unbeatable}})
+(def human (new-human :x nil))
+(def computer (new-computer :o))
+
+(def new-gamestate {:board [:- :- :- :- :- :- :- :- :-], :computer :o, :players [human computer]  :options {:difficulty :unbeatable}})
 
 (def mock-request {:session {:gamestate {:board [:x :o :- :- :- :- :- :- :-], :computer :o, :options {:difficulty :unbeatable}}}, :status 302, :headers {"Location" "/play"}, :body ""})
 
@@ -24,6 +27,10 @@
     (it "pulls the gamestate from a request"
       (should= {:board [:x :o :- :- :- :- :- :- :-], :computer :o, :options {:difficulty :unbeatable}}
                (gamestate mock-request))))
+
+  (describe "#let-computer-move"
+    (it "has the computer make a move"
+      (should= {:board [:x :- :- :- :- :- :- :- :-], :computer :o, :players [computer human], :options {:difficulty :unbeatable}} (let-computer-move new-gamestate))))
 
   (describe "routes"
     (it "handles /"
