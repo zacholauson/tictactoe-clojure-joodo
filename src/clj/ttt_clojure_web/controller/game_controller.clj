@@ -28,4 +28,4 @@
   (POST "/move"     {params :params} (make-human-move params *request*))
   (GET  "/play"     []               (if-not (helper/gamestate *request*)
                                        (redirect "/") 
-                                       (render-template "view/game/play" (helper/build-map-to-send-to-play-template *request*)))))
+                                       (render-template "game/play" (helper/build-map-to-send-to-play-template *request*)))))

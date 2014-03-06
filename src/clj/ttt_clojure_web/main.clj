@@ -23,12 +23,12 @@
 (defroutes app-routes
   (GET "/" [] (render-template "index"))
   (refresh/handler 'ttt-clojure-web.controller.game-controller/game-controller)
-  (route/not-found (render-template "not_found" :template-root "ttt_clojure_web" :ns `ttt-clojure-web.view-helpers)))
+  (route/not-found (render-template "not_found" :template-root "ttt_clojure_web/view" :ns `ttt-clojure-web.view-helpers)))
 
 (def app-handler
   (->
     app-routes
-    (wrap-view-context :template-root "ttt_clojure_web" :ns `ttt-clojure-web.view-helpers)
+    (wrap-view-context :template-root "ttt_clojure_web/view" :ns `ttt-clojure-web.view-helpers)
     wrap-rpc))
 
 (def app

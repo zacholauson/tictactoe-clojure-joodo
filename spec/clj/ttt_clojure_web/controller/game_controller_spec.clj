@@ -33,7 +33,7 @@
     (it "handles /play when gamestate does exist in session"
       (let [request-result (request :get "/play" :session {:gamestate new-gamestate})]
         (should= 200 (:status request-result))
-        (should= "view/game/play" @rendered-template)))
+        (should= "game/play" @rendered-template)))
 
     (it "handles /move and moves the gamestate to the humans chosen move"
       (let [result (request :post "/move" :session {:gamestate new-gamestate} :params {:move "0"})]
