@@ -17,8 +17,7 @@
             [ring.middleware.params             :refer [wrap-params]]
             [ring.middleware.resource           :refer [wrap-resource]]
             [ring.middleware.session            :refer [wrap-session]]
-            [shoreleave.middleware.rpc          :refer [wrap-rpc]]
-            [ttt-clojure.gamestate              :refer :all]))
+            [shoreleave.middleware.rpc          :refer [wrap-rpc]]))
 
 (defroutes app-routes
   (GET "/" [] (render-template "index"))

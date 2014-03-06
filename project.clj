@@ -1,6 +1,6 @@
 (defproject ttt-clojure-web "0.1.0-SNAPSHOT"
-  :description "FIXME: write description"
-  :url "http://example.com/FIXME"
+  :description "tic tac toe on joodo"
+  :url "https://github.com/zacholauson/tictactoe-clojure-joodo"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
 
@@ -11,7 +11,6 @@
                  [org.clojure/clojure "1.5.1"]
                  [ring-server/ring-server "0.3.1"]
                  [shoreleave/shoreleave-remote-ring "0.3.0" :exclusions [[org.clojure/tools.reader]]]
-                 [sandbar/sandbar "0.4.0-SNAPSHOT"]
                  [ttt-clojure "0.1.1-SNAPSHOT"]]
 
   :profiles {:dev {:dependencies [[speclj "2.8.1"]
