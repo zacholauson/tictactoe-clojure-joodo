@@ -1,4 +1,4 @@
-(ns ttt-clojure-web.view-helpers
+(ns ttt-clojure-web.helper.view-helper
    "Put helper functions for views in this namespace."
    (:require [hiccup.element :refer :all]
              [hiccup.form :refer :all]
