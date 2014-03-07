@@ -76,7 +76,6 @@
 (describe "#build-map-to-send-to-template"
   (let [returned-map (build-map-to-send-to-play-template mock-request)]
     (it "should build the map to send to the play template based on the given request"
-     ;; {:gamestate {:board [:x :o :- :- :- :- :- :- :-], :options {:difficulty :unbeatable}, :computer :o}, :possible-moves [2 3 4 5 6 7 8], :indexed-board ((" x" " o" " 2") (" 3" " 4" " 5") (" 6" " 7" " 8")), :game-over? false, :winner nil}
       (should= {:board [:x :o :- :- :- :- :- :- :-] :options {:difficulty :unbeatable}, :computer :o} (:gamestate returned-map))
       (should= [2 3 4 5 6 7 8] (:possible-moves returned-map))
       (should= [[" x" " o" " 2"] [" 3" " 4" " 5"] [" 6" " 7" " 8"]] (:indexed-board returned-map))
