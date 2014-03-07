@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# You need the Heroku Deploy plugin installed for this to work.
+#   heroku plugins:install https://github.com/heroku/heroku-deploy
+
+lein ring uberwar
+heroku deploy:war --war target/*-standalone.war
+heroku open
