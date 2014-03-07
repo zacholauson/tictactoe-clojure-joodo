@@ -1,24 +1,12 @@
 [:link {:type "text/css", :href "stylesheets/play.css", :rel "stylesheet"}]
 
-[:div {:style "visibility: hidden"}
-  (defn space-taken? [string]
-    (if (re-find #"x|o" string) true false))
-
-  (defn buttonify [string]
-    (if (space-taken? string) string
-      [:div 
-       (label string string)
-       (radio-button :move true string)]))]
-
 [:div {:style "text-align: center;"}
   (form-to [:post "/move"]
     [:table {:border "1"}
       (for [row (:indexed-board *view-context*)]
-        [:tr
-         (for [space row]
-           [:td
-            (buttonify space)])])]
+        [:tr (for [space row]
+           [:td (buttonify space)])])]
     (if (:game-over? *view-context*)
       [:h1 (:winner *view-context*)]
-      (submit-button "Make Move")))
-  (link-to "/" "New Game")]
+      [:div (submit-button "Make Move")]))]
+  (link-to "/" "New Game")
