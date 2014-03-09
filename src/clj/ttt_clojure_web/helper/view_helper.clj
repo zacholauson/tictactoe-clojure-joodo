@@ -12,7 +12,8 @@
 
 (defn buttonify [string]
   (if (space-taken? string) string
-    [:div {:class "move-form"}
-     (form-to [:post "/move"]
-       (text-field {:type :hidden} :move (clojure.string/trim string))
-       (submit-button {:class "move"} (clojure.string/trim string)))]))
+    (if (:game-over? *view-context*) string
+      [:div {:class "move-form"}
+       (form-to [:post "/move"]
+         (text-field {:type :hidden} :move (clojure.string/trim string))
+         (submit-button {:class "move"} (clojure.string/trim string)))])))
