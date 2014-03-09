@@ -17,9 +17,6 @@ td {
   height: 175px;
 }
 
-label {
-  display: none;
-}
-
-input[type="radio"] {
+input[type="submit"].move {
+  font-size: 5em;
 }

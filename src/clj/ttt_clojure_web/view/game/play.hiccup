@@ -1,12 +1,10 @@
 [:link {:type "text/css", :href "stylesheets/play.css", :rel "stylesheet"}]
 
 [:div {:style "text-align: center;"}
-  (form-to [:post "/move"]
-    [:table {:border "1"}
-      (for [row (:indexed-board *view-context*)]
-        [:tr (for [space row]
-           [:td (buttonify space)])])]
-    (if (:game-over? *view-context*)
-      [:h1 (:winner *view-context*)]
-      [:div (submit-button "Make Move")]))]
+  [:table {:border "1"}
+    (for [row (:indexed-board *view-context*)]
+      [:tr (for [space row]
+         [:td (buttonify space)])])]
+  (if (:game-over? *view-context*)
+    [:h1 (:winner *view-context*)])]
   (link-to "/" "New Game")
