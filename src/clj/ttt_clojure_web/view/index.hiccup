@@ -1,28 +1,41 @@
-[:div
-  (form-to [:post "/new-game"]
-    [:table (:style "border: 0")
-      [:tr [:th [:h3 "Tic Tac Toe"]]]
-      [:tr [:th]]
-      [:tr [:th "Board Size"]]
-      (for [board-size [5 4 3]]
-        [:tr 
-          [:td (label (str board-size) (str board-size "x" board-size))]
-          [:td (radio-button :board-size true board-size)]])
+[:link {:type "text/css", :href "stylesheets/play.css", :rel "stylesheet"}]
 
-      [:tr [:td [:hr]]]
-      [:tr [:th "Difficulty"]]
-      [:tr [:th]]
-      (for [difficulty [:easy :medium :unbeatable]]
-        [:tr
-          [:td (label difficulty difficulty)]
-          [:td (radio-button :difficulty true difficulty)]])
+[:table {:class "game" :style "border: 0;"}
+  [:tr
+    [:td {:style "width: auto;"}
+      [:div
+        (form-to [:post "/new-game"]
+          [:table (:style "border: 0")
+            [:tr [:th [:h3 "Tic Tac Toe"]]]
+            [:tr [:th]]
+            [:tr [:th "Board Size"]]
+            (for [board-size [5 4 3]]
+              [:tr 
+                [:td (label (str board-size) (str board-size "x" board-size))]
+                [:td (radio-button :board-size true board-size)]])
 
-      [:tr [:td [:hr]]]
-      [:tr [:th "Who Goes First"]]
-      [:tr [:th]]
-      (for [player [:human :computer]]
-        [:tr
-          [:td (label player player)]
-          [:td (radio-button :who-goes-first true player)]])
-     [:tr [:td [:hr]]]
-     [:tr [:td (submit-button "New Game")]]])]
+            [:tr [:td [:hr]]]
+            [:tr [:th "Difficulty"]]
+            [:tr [:th]]
+            (for [difficulty [:easy :medium :unbeatable]]
+              [:tr
+                [:td (label difficulty difficulty)]
+                [:td (radio-button :difficulty true difficulty)]])
+
+            [:tr [:td [:hr]]]
+            [:tr [:th "Who Goes First"]]
+            [:tr [:th]]
+            (for [player [:human :computer]]
+              [:tr
+                [:td (label player player)]
+                [:td (radio-button :who-goes-first true player)]])
+           [:tr [:td [:hr]]]
+           [:tr [:td (submit-button "New Game")]]])]]
+    [:td {:style "width: auto"}
+      [:div {:style "text-align: center;"}
+      [:table {:class "board" :border "1"}
+        (for [row (:indexed-board *view-context*)]
+          [:tr (for [space row]
+             [:td (buttonify space)])])]
+      (if (:game-over? *view-context*)
+        [:h1 (:winner *view-context*)])]]]]
