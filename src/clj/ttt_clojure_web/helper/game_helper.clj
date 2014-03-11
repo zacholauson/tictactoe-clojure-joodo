@@ -15,18 +15,33 @@
 (defn set-gamestate-session [request gamestate]
   (assoc (:session request) :gamestate gamestate))
 
-(defn build-gamestate [params]
-  (let [row-size       (parse-int (:board-size params))
-        difficulty     (keyword   (:difficulty params))
-        who-goes-first (keyword   (:who-goes-first params))
-        computer       (computer/new-computer (if (= who-goes-first :computer) :x :o))
-        human          (human/new-human (if (= who-goes-first :computer) :o :x) nil)
-        player-col     (if (= who-goes-first :computer) [computer human] [human computer])
-        computer-mark  (if (= who-goes-first :computer) :x :o)]
-    {:board (create-board row-size)
-     :players player-col
-     :computer computer-mark
-     :options {:difficulty difficulty}}))
+(defmulti build-gamestate (fn [params] (keyword (:gametype params))))
+
+(defmethod build-gamestate :computer-vs-human [params]
+  (let [players [(new-computer :x) (new-human :o nil)]
+        row-size (parse-int (:board-size params))
+        difficulty-setting (keyword (:difficulty params))
+        computer-mark :x]
+    {:board (create-board row-size) :players players :computer computer-mark :options {:difficulty difficulty-setting}}))
+
+(defmethod build-gamestate :human-vs-computer [params]
+  (let [players [(new-human :x nil) (new-computer :o)]
+        row-size (parse-int (:board-size params))
+        difficulty-setting (keyword (:difficulty params))
+        computer-mark :o]
+    {:board (create-board row-size) :players players :computer computer-mark :options {:difficulty difficulty-setting}}))
+
+(defmethod build-gamestate :computer-vs-computer [params]
+  (let [players [(new-computer :x) (new-computer :o)]
+        row-size (parse-int (:board-size params))
+        difficulty-setting (keyword (:difficulty params))
+        computer-mark (rand-nth [:x :o])]
+    {:board (create-board row-size) :players players :computer computer-mark :options {:difficulty difficulty-setting}}))
+
+(defmethod build-gamestate :human-vs-human [params]
+  (let [players [(new-human :x nil) (new-human :o nil)]
+        row-size (parse-int (:board-size params))]
+    {:board (create-board row-size) :players players :options {:difficulty :easy}}))
 
 (defn session [request]
   (:session request))
@@ -49,14 +64,9 @@
 (defn let-computer-move [gamestate]
   (move gamestate (find-move gamestate)))
 
-(defn computer-move-if-computer-turn [gamestate]
-  (if (= :x (:computer gamestate))
-      (let-computer-move gamestate)
-      gamestate))
-
 (defn build-map-to-send-to-play-template [request]
   (let [gamestate    (gamestate request)]
-    {:gamestate      gamestate
+    {:gamestate       gamestate
      :possible-moves (possible-moves    gamestate)
      :indexed-board  (partitioned-board gamestate)
      :game-over?     (game-over?        gamestate)

@@ -7,7 +7,15 @@
         (form-to [:post "/new-game"]
           [:table (:style "border: 0")
             [:tr [:th [:h3 "Tic Tac Toe"]]]
-            [:tr [:th]]
+
+            [:tr [:td [:hr]]]
+            [:tr [:th "Gametype"]]
+            (for [gametype [:human-vs-human :computer-vs-computer :human-vs-computer :computer-vs-human]]
+              [:tr
+                [:td (label gametype gametype)]
+                [:td (radio-button :gametype true gametype)]])
+
+            [:tr [:td [:hr]]]
             [:tr [:th "Board Size"]]
             (for [board-size [5 4 3]]
               [:tr 
@@ -22,13 +30,6 @@
                 [:td (label difficulty difficulty)]
                 [:td (radio-button :difficulty true difficulty)]])
 
-            [:tr [:td [:hr]]]
-            [:tr [:th "Who Goes First"]]
-            [:tr [:th]]
-            (for [player [:human :computer]]
-              [:tr
-                [:td (label player player)]
-                [:td (radio-button :who-goes-first true player)]])
            [:tr [:td [:hr]]]
            [:tr [:td (submit-button "New Game")]]])]]
     [:td {:style "width: auto"}

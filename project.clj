@@ -11,7 +11,7 @@
                  [org.clojure/clojure "1.5.1"]
                  [ring-server/ring-server "0.3.1"]
                  [shoreleave/shoreleave-remote-ring "0.3.0" :exclusions [[org.clojure/tools.reader]]]
-                 [ttt-clojure "0.1.1-SNAPSHOT"]]
+                 [ttt-clojure "0.1.2-SNAPSHOT"]]
 
   :profiles {:dev {:dependencies [[speclj "2.8.1"]
                                   [specljs "2.8.1"]
