@@ -35,7 +35,7 @@
         (should= 200 (:status request-result))
         (should= "index" @rendered-template)))
 
-    (it "handles /move and moves the gamestate to the humans chosen move"
+    (it "handles /move"
       (let [result (request :post "/move" :session {:gamestate new-gamestate} :params {:move "0"})]
-        (should= [:x :o :- :- :- :- :- :- :-] (-> result :session :gamestate :board))))))
+        (should= [:x :- :- :- :- :- :- :- :-] (-> result :session :gamestate :board))))))
 
