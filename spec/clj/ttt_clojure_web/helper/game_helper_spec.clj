@@ -34,7 +34,7 @@
        (set-gamestate-session mock-request {:board [:- :- :- :- :- :- :- :- :-]}))))
 
 (describe "#build-gamestate"
-  (let [params {:board-size 3 :difficulty :unbeatable :who-goes-first :computer}
+  (let [params {:board-size 3 :difficulty :unbeatable :who-goes-first :computer :gametype :computer-vs-human}
         built-gamestate (build-gamestate params)]
     (it "should build a gamestate based on the given params"
       (should= [:- :- :- :- :- :- :- :- :-] (:board built-gamestate))
