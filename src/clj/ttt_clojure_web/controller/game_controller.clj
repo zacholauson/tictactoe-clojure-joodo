@@ -18,13 +18,10 @@
          (redirect "/play")
          :session (helper/set-gamestate-session request gamestate))))
 
-(defn computer-turn? [request]
-  (= (str (type (first (:players (helper/gamestate request))))) "class ttt_clojure.players.computer.Computer"))
-
 (defn play-action [request]
   (if-not (helper/gamestate request) (redirect "/")
     (if (game-over? (helper/gamestate request)) (render-template "index" (helper/build-map-to-send-to-play-template request) :ns `ttt-clojure-web.helper.view-helper)
-      (if (computer-turn? request)
+      (if (helper/computer-turn? request)
         (assoc
           (redirect "/play")
           :session (helper/set-gamestate-session request (helper/let-computer-move (helper/gamestate request))))

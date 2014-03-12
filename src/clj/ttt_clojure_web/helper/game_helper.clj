@@ -1,10 +1,10 @@
 (ns ttt-clojure-web.helper.game-helper
-  (:require [ttt-clojure.interface.player  :refer [piece]]
-            [ttt-clojure.players.computer  :refer [new-computer] :as computer]
-            [ttt-clojure.players.human     :refer [new-human]    :as human]
-            [ttt-clojure.gamestate         :refer [move create-board possible-moves game-over? winner]]
-            [ttt-clojure.ai                :refer [find-move]]
-            [clojure.math.numeric-tower    :refer [sqrt]         :as math]))
+  (:require [clojure.math.numeric-tower   :refer [sqrt]         :as math]
+            [ttt-clojure.interface.player :refer [piece]]
+            [ttt-clojure.ai               :refer [find-move]]
+            [ttt-clojure.gamestate        :refer [move create-board possible-moves game-over? winner]]
+            [ttt-clojure.players.computer :refer [new-computer] :as computer]
+            [ttt-clojure.players.human    :refer [new-human]    :as human]))
 
 (defn parse-int [string]
   (cond
@@ -60,6 +60,9 @@
 
 (defn partitioned-board [gamestate]
   (partition (row-size (:board gamestate)) (index-board (:board gamestate))))
+
+(defn computer-turn? [request]
+  (= (str (type (first (:players (gamestate request))))) "class ttt_clojure.players.computer.Computer"))
 
 (defn let-computer-move [gamestate]
   (move gamestate (find-move gamestate)))
